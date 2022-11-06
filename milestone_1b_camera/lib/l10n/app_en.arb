@@ -1,0 +1,42 @@
+{
+  "playButtonLabel": "Play",
+  "@playButtonLabel": {
+        "description": "The label for the play button"
+  },
+  "mainPageTitle": "Welcome to MasterMind",
+  "@mainPageTitle": {
+        "description": "The title for the app's main page"
+  },
+  "hintTextLabel": "Enter your name here...",
+  "@hintTextLabel": {
+        "description": "The label for the hint text"
+  },
+  "searchPageLabel": "Search",
+  "@searchPageLabel": {
+        "description": "The label for the user searching page"
+  },
+  "createPageLabel": "Create",
+  "@createPageLabel": {
+        "description": "The label for the session creating page"
+  },
+  "joinPageLabel": "Join",
+  "@joinPageLabel": {
+        "description": "The label for the session joining page"
+  },
+  "userPageLabel": "User",
+  "@userPageLabel": {
+        "description": "The label for the user page"
+  },
+  "userNameLabel": "Name",
+  "@userNameLabel": {
+        "description": "The label for the user name textfield"
+  },
+  "noImageLabel": "No image",
+  "@noImageLabel": {
+        "description": "The label for the photo area when there's no photo"
+  },
+  "loadImageLabel": "Load image",
+  "@loadImageLabel": {
+        "description": "The label for the load image button"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "706661699198",
+    "project_id": "socialnary",
+    "storage_bucket": "socialnary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706661699198:android:3f5b177aebe07aac40522f",
+        "android_client_info": {
+          "package_name": "com.example.milestone_1b_camera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706661699198-57h3mbk7vkp30sfe36ti12a865ouudvg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANcQJBUtDZx3N8v1tRztIW4-u_QKpoie0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706661699198-57h3mbk7vkp30sfe36ti12a865ouudvg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

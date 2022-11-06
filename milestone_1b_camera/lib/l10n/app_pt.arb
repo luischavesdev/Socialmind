@@ -1,0 +1,12 @@
+{
+  "playButtonLabel": "Jogar",
+  "mainPageTitle": "Bem-vindo ao MasterMind",
+  "hintTextLabel": "Insira o seu nome aqui...",
+  "searchPageLabel": "Procurar",
+  "createPageLabel": "Criar",
+  "joinPageLabel": "Entrar",
+  "userPageLabel": "Utilizador",
+  "userNameLabel": "Nome",
+  "noImageLabel": "Sem imagem",
+  "loadImageLabel": "Carregar imagem"
+}
