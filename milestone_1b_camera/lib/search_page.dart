@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'mqtt_app_state.dart';
 import 'mqtt_manager.dart';
 import 'play_page.dart';
@@ -75,7 +76,8 @@ class _SearchPageState extends State<SearchPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Expanded(
-            child: _buildTextField(_idTextController, 'Enter a username'),
+            child: _buildTextField(_idTextController,
+                AppLocalizations.of(context)!.enterUsernameTextFieldLabel),
           ),
           _buildSendIdButton(currentMQTTState.getIdWasSent)
         ],
@@ -98,7 +100,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget _buildSendIdButton(bool textWasSent) {
     return ElevatedButton(
       onPressed: textWasSent ? null : _setID,
-      child: const Text('Accept'), //
+      child: Text(AppLocalizations.of(context)!.acceptButtonLabel),
     );
   }
 
@@ -120,7 +122,7 @@ class _SearchPageState extends State<SearchPage> {
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(double.infinity, 40),
       ),
-      child: const Text('Find Session'),
+      child: Text(AppLocalizations.of(context)!.findSessionButtonLabel),
     );
   }
 
@@ -130,7 +132,7 @@ class _SearchPageState extends State<SearchPage> {
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(double.infinity, 40),
       ),
-      child: const Text('Play'),
+      child: Text(AppLocalizations.of(context)!.playButtonLabel),
     );
   }
 

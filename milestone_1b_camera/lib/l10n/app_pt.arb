@@ -8,5 +8,11 @@
   "userPageLabel": "Utilizador",
   "userNameLabel": "Nome",
   "noImageLabel": "Sem imagem",
-  "loadImageLabel": "Carregar imagem"
+  "loadImageLabel": "Carregar imagem",
+  "enterUsernameTextFieldLabel": "Insira um nome",
+  "acceptButtonLabel": "Aceitar",
+  "findSessionButtonLabel": "Encontrar Sessão",
+  "setCodeButtonLabel": "Definir código",
+  "submitCodeButtonLabel": "Submeter",
+  "quitButtonLabel": "Terminar"
 }

@@ -38,5 +38,29 @@
   "loadImageLabel": "Load image",
   "@loadImageLabel": {
         "description": "The label for the load image button"
+  },
+  "enterUsernameTextFieldLabel": "Enter a username",
+  "@enterUsernameTextField": {
+            "description": "The label for the username textfield in the session page"
+  },
+  "acceptButtonLabel": "Accept",
+  "@acceptButtonLabel": {
+            "description": "The label for the accept button"
+  },
+  "findSessionButtonLabel": "Find Session",
+  "@findSessionButtonLabel": {
+            "description": "The label for the find session button"
+  },
+  "setCodeButtonLabel": "Set Code",
+  "@setCodeButtonLabel": {
+            "description": "The label for the set code button"
+  },
+  "submitCodeButtonLabel": "Submit",
+  "@submitCodeButtonLabel": {
+            "description": "The label for the submit code button"
+  },
+  "quitButtonLabel": "Quit",
+  "@quitButtonLabel": {
+            "description": "The label for the quit button"
   }
 }
