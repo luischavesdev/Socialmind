@@ -48,15 +48,18 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildPubIdMessageRow(),
-                  _buildConnectButton(currentMQTTState.getIdWasSent,
-                      currentMQTTState.getAppConnectionState),
-                  _buildPlayButton(currentMQTTState.getCanPlay),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildPubIdMessageRow(),
+                    _buildConnectButton(currentMQTTState.getIdWasSent,
+                        currentMQTTState.getAppConnectionState),
+                    _buildPlayButton(currentMQTTState.getCanPlay),
+                  ],
+                ),
               ),
             ),
           ),

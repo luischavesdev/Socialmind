@@ -106,50 +106,53 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       borderRadius: const BorderRadius.all(Radius.circular(5)),
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Image(
-                          image: AssetImage("images/logo_2x.png"),
-                        ),
-                        const SizedBox(height: 20),
-                        Text(AppLocalizations.of(context)!.userNameLabel,
-                            textScaleFactor: 1.5,
-                            style: const TextStyle(color: Colors.grey)),
-                        TextFormField(
-                          initialValue: snapshot.data,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              hintText:
-                                  AppLocalizations.of(context)!.hintTextLabel),
-                          onChanged: (newText) => _text = newText,
-                        ),
-                        const SizedBox(height: 10),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 40),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            foregroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Image(
+                            image: AssetImage("images/logo_2x.png"),
                           ),
-                          onPressed: () async {
-                            if (_text != null) {
-                              final prefs =
-                                  await SharedPreferences.getInstance();
-                              await prefs.setString('username', _text!);
-                              provider.setUsername(_text!);
-                              Navigator.of(context).pushNamed('/mainMenu');
-                            }
-                          },
-                          child: Text(
-                              AppLocalizations.of(context)!.playButtonLabel),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
+                          const SizedBox(height: 20),
+                          Text(AppLocalizations.of(context)!.userNameLabel,
+                              textScaleFactor: 1.5,
+                              style: const TextStyle(color: Colors.grey)),
+                          TextFormField(
+                            initialValue: snapshot.data,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                hintText: AppLocalizations.of(context)!
+                                    .hintTextLabel),
+                            onChanged: (newText) => _text = newText,
+                          ),
+                          const SizedBox(height: 10),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 40),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                            ),
+                            onPressed: () async {
+                              if (_text != null) {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setString('username', _text!);
+                                provider.setUsername(_text!);
+                                Navigator.of(context).pushNamed('/mainMenu');
+                              }
+                            },
+                            child: Text(
+                                AppLocalizations.of(context)!.playButtonLabel),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
                     ),
                   ),
                 )),
