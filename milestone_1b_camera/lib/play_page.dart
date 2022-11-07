@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:math';
 import 'mqtt_app_state.dart';
 import 'mqtt_manager.dart';
@@ -265,8 +266,8 @@ class GuessSquare extends StatelessWidget {
   }
 
   void setColors(List<int> incomingColors) {
-    print("COLORS " + incomingColors.length.toString());
-    print("ICONS " + icons.length.toString());
+    print("COLORS ${incomingColors.length}");
+    print("ICONS ${icons.length}");
     if (incomingColors.length == icons.length) {
       for (var i = 0; i < icons.length; ++i) {
         icons[i].iconController.onColorChange(incomingColors[i]);
@@ -299,13 +300,13 @@ class _SetCodeButtonState extends State<SetCodeButton> {
           : () {
               widget.rowRef.rowController.readyColorString();
               widget.mqttManagerRef
-                  .publish("code::" + widget.rowRef.colorsString);
+                  .publish("code::${widget.rowRef.colorsString}");
               widget.rowRef.rowController.onSubmitted();
               setState(() {
                 hasBeenPressed = true;
               });
             },
-      child: const Text("Set Code"),
+      child: Text(AppLocalizations.of(context)!.setCodeButtonLabel),
     );
   }
 }
@@ -341,7 +342,7 @@ class _SubmitButtonState extends State<SubmitButton> {
               //Publish guess try
               widget.rowRef.rowController.readyColorString();
               widget.mqttManagerRef
-                  .publish("guess::" + widget.rowRef.colorsString);
+                  .publish("guess::${widget.rowRef.colorsString}");
 
               //Deactivate Row Buttons
               widget.rowRef.rowController.onSubmitted();
@@ -366,7 +367,7 @@ class _SubmitButtonState extends State<SubmitButton> {
                 hasBeenPressed = true;
               });
             },
-      child: const Text("Submit"),
+      child: Text(AppLocalizations.of(context)!.submitCodeButtonLabel),
     );
   }
 
@@ -412,7 +413,7 @@ class _SubmitButtonState extends State<SubmitButton> {
     //Run through remaining elements to find "whites". When a "white" is not found, a "grey" (neutral) is added instead
     int lengthCache = guessList.length;
     for (var i = 0; i < lengthCache; ++i) {
-      if (codeList.indexOf(guessList[0]) != -1) {
+      if (codeList.contains(guessList[0])) {
         print("WHITE");
         colorList.add(1);
         codeList.remove(codeList[codeList.indexOf(guessList[0])]);
@@ -492,7 +493,7 @@ class _PlayPageState extends State<PlayPage> {
           widget.mqttManagerRef.resetMQTTVars();
           Navigator.of(context).pop();
         },
-        label: const Text("Quit"),
+        label: Text(AppLocalizations.of(context)!.quitButtonLabel),
         icon: const Icon(Icons.close),
       ),
       body: Container(
@@ -517,7 +518,23 @@ class _PlayPageState extends State<PlayPage> {
               const SizedBox(height: 20),
               consumers[0],
               Consumer<MQTTAppState>(
-                  builder: (context, value, child) => Text(value.getEndString)),
+                builder: (context, value, child) => Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.background,
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.background,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        value.getEndString,
+                        style: const TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.w700),
+                      ),
+                    )),
+              ),
               consumers[1],
               consumers[2],
               consumers[3],
