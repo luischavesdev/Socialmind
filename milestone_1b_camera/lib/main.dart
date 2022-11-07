@@ -26,9 +26,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = ThemeData();
+    const Color backgroundColor = Color.fromARGB(255, 63, 61, 63);
+
     return MaterialApp(
-      title: 'Mastermind',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      debugShowCheckedModeBanner: false,
+      title: 'Socialmind',
+
+      // Customize theme
+      theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          primary: const Color.fromARGB(255, 24, 23, 23),
+          onPrimary: const Color.fromARGB(255, 196, 195, 201),
+          secondary: const Color.fromARGB(255, 167, 167, 172),
+          // background uses the same color as surface
+          background: backgroundColor,
+          surface: backgroundColor,
+        ),
+      ),
+
       routes: {
         '/': (context) => const MyHomePage(),
         '/mainMenu': (context) => const MainMenuScreen(),
@@ -56,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<String?> getUsername() async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('username') != null) _text = prefs.getString('username');
+    if (prefs.getString('username') != null)
+      _text = prefs.getString('username');
     return prefs.getString('username');
   }
 
@@ -69,40 +86,74 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-              appBar: AppBar(title: Text(AppLocalizations.of(context)!.mainPageTitle)),
-              body: Center(
-                  child: Padding(
-                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(AppLocalizations.of(context)!.userNameLabel,
-                          textScaleFactor: 1.5, style: const TextStyle(color: Colors.grey)),
-                      TextFormField(
-                        initialValue: snapshot.data,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                            border: const OutlineInputBorder(), hintText: AppLocalizations.of(context)!.hintTextLabel),
-                        onChanged: (newText) => _text = newText,
+              // appBar: AppBar(
+              //     title: Text(AppLocalizations.of(context)!.mainPageTitle)),
+              body: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("images/socialmind_pattern.png"),
+                    repeat: ImageRepeat.repeat,
+                  ),
+                ),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.background,
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.background,
                       ),
-                      const SizedBox(height: 40),
-                      TextButton(
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Image(
+                          image: AssetImage("images/logo_2x.png"),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(AppLocalizations.of(context)!.userNameLabel,
+                            textScaleFactor: 1.5,
+                            style: const TextStyle(color: Colors.grey)),
+                        TextFormField(
+                          initialValue: snapshot.data,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              hintText:
+                                  AppLocalizations.of(context)!.hintTextLabel),
+                          onChanged: (newText) => _text = newText,
+                        ),
+                        const SizedBox(height: 10),
+                        TextButton(
                           style: TextButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 40),
-                              backgroundColor: const Color.fromARGB(255, 7, 57, 99),
-                              foregroundColor: Colors.white),
+                            minimumSize: const Size(double.infinity, 40),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
+                          ),
                           onPressed: () async {
                             if (_text != null) {
-                              final prefs = await SharedPreferences.getInstance();
+                              final prefs =
+                                  await SharedPreferences.getInstance();
                               await prefs.setString('username', _text!);
                               provider.setUsername(_text!);
                               Navigator.of(context).pushNamed('/mainMenu');
                             }
                           },
-                          child: Text(AppLocalizations.of(context)!.playButtonLabel))
-                    ]),
-              )),
+                          child: Text(
+                              AppLocalizations.of(context)!.playButtonLabel),
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    ),
+                  ),
+                )),
+              ),
             );
           } else {
             return const CircularProgressIndicator();

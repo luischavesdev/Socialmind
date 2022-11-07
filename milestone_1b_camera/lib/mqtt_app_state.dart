@@ -5,7 +5,8 @@ enum MQTTAppConnectionState { connected, disconnected, connecting }
 enum MQTTPlayerNum { p0, p1, p2 }
 
 class MQTTAppState with ChangeNotifier {
-  MQTTAppConnectionState _appConnectionState = MQTTAppConnectionState.disconnected;
+  MQTTAppConnectionState _appConnectionState =
+      MQTTAppConnectionState.disconnected;
   bool _idWasSent = false;
   MQTTPlayerNum _currentPlayerNum = MQTTPlayerNum.p0;
   bool _canPlay = false;

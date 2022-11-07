@@ -25,9 +25,9 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       body: screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color.fromARGB(255, 7, 57, 99),
-        unselectedItemColor: Colors.black,
-        backgroundColor: Colors.white,
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
+        unselectedItemColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.background,
         showUnselectedLabels: true,
         items: [
           BottomNavigationBarItem(

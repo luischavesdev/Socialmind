@@ -20,7 +20,8 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _setAppConnectionState());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _setAppConnectionState());
   }
 
   @override
@@ -29,22 +30,36 @@ class _SearchPageState extends State<SearchPage> {
     currentMQTTState = mqttState;
 
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const Center(
-            child: Text(
-              'Search',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-          )),
       body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildPubIdMessageRow(),
-            _buildConnectButton(currentMQTTState.getIdWasSent, currentMQTTState.getAppConnectionState),
-            _buildPlayButton(currentMQTTState.getCanPlay),
-          ],
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/socialmind_pattern.png"),
+            repeat: ImageRepeat.repeat,
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.background,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.background,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildPubIdMessageRow(),
+                  _buildConnectButton(currentMQTTState.getIdWasSent,
+                      currentMQTTState.getAppConnectionState),
+                  _buildPlayButton(currentMQTTState.getCanPlay),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -65,12 +80,14 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _buildTextField(TextEditingController targetController, String hintText) {
+  Widget _buildTextField(
+      TextEditingController targetController, String hintText) {
     return TextField(
         enabled: true,
         controller: targetController,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(left: 0, bottom: 0, top: 0, right: 0),
+          contentPadding:
+              const EdgeInsets.only(left: 0, bottom: 0, top: 0, right: 0),
           labelText: hintText,
         ));
   }
@@ -78,11 +95,12 @@ class _SearchPageState extends State<SearchPage> {
   Widget _buildSendIdButton(bool textWasSent) {
     return ElevatedButton(
       onPressed: textWasSent ? null : _setID,
-      child: const Text('Send'), //
+      child: const Text('Accept'), //
     );
   }
 
-  Widget _buildConnectButton(bool textWasSent, MQTTAppConnectionState mqttState) {
+  Widget _buildConnectButton(
+      bool textWasSent, MQTTAppConnectionState mqttState) {
     bool stateIsConnected = false;
     bool finalBool = false;
 
@@ -96,13 +114,19 @@ class _SearchPageState extends State<SearchPage> {
 
     return ElevatedButton(
       onPressed: finalBool ? _startMyManager : null,
-      child: const Text('Connect'),
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 40),
+      ),
+      child: const Text('Find Session'),
     );
   }
 
   Widget _buildPlayButton(bool canPlay) {
     return ElevatedButton(
       onPressed: canPlay ? _play : null,
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 40),
+      ),
       child: const Text('Play'),
     );
   }
@@ -136,13 +160,17 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _startMyManager() {
-    myMQTTManager = CustomMQTTManager(incomingState: currentMQTTState, incomingID: _idTextController.text);
+    myMQTTManager = CustomMQTTManager(
+        incomingState: currentMQTTState, incomingID: _idTextController.text);
     myMQTTManager.initializeMQTTClient();
     myMQTTManager.connect();
   }
 
   void _play() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => PlayPage(mqttManagerRef: myMQTTManager)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PlayPage(mqttManagerRef: myMQTTManager)));
   }
 
   //Legacy

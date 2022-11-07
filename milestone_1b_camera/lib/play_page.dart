@@ -4,6 +4,9 @@ import 'dart:math';
 import 'mqtt_app_state.dart';
 import 'mqtt_manager.dart';
 
+// phone shake package
+import 'package:shake/shake.dart';
+
 const MaterialColor primaryBlack = MaterialColor(
   0xFF000000,
   <int, Color>{
@@ -215,7 +218,12 @@ class _ButtonRowState extends State<ButtonRow> {
   void randomizeColors() {
     print("randomize");
     Random random = Random();
-    List<int> tempList = [random.nextInt(6), random.nextInt(6), random.nextInt(6), random.nextInt(6)];
+    List<int> tempList = [
+      random.nextInt(6),
+      random.nextInt(6),
+      random.nextInt(6),
+      random.nextInt(6)
+    ];
     setColors(tempList);
   }
 
@@ -271,7 +279,8 @@ class GuessSquare extends StatelessWidget {
 
 //SET CODE BUTTON::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 class SetCodeButton extends StatefulWidget {
-  const SetCodeButton({super.key, required this.mqttManagerRef, required this.rowRef});
+  const SetCodeButton(
+      {super.key, required this.mqttManagerRef, required this.rowRef});
   final CustomMQTTManager mqttManagerRef;
   final ButtonRow rowRef;
 
@@ -289,7 +298,8 @@ class _SetCodeButtonState extends State<SetCodeButton> {
           ? null
           : () {
               widget.rowRef.rowController.readyColorString();
-              widget.mqttManagerRef.publish("code::" + widget.rowRef.colorsString);
+              widget.mqttManagerRef
+                  .publish("code::" + widget.rowRef.colorsString);
               widget.rowRef.rowController.onSubmitted();
               setState(() {
                 hasBeenPressed = true;
@@ -330,7 +340,8 @@ class _SubmitButtonState extends State<SubmitButton> {
           : () {
               //Publish guess try
               widget.rowRef.rowController.readyColorString();
-              widget.mqttManagerRef.publish("guess::" + widget.rowRef.colorsString);
+              widget.mqttManagerRef
+                  .publish("guess::" + widget.rowRef.colorsString);
 
               //Deactivate Row Buttons
               widget.rowRef.rowController.onSubmitted();
@@ -430,6 +441,8 @@ class PlayPage extends StatefulWidget {
 }
 
 class _PlayPageState extends State<PlayPage> {
+  // shake detector
+  late ShakeDetector shakeDetector;
   List<ButtonRow> rows = [];
   List<GuessSquare> guesses = [];
   List<Consumer<MQTTAppState>> consumers = [];
@@ -440,50 +453,83 @@ class _PlayPageState extends State<PlayPage> {
     super.initState();
 
     rows.add(ButtonRow());
-    consumers.add(Consumer<MQTTAppState>(builder: (context, value, child) => _buildFirstRow(value.getCodeWasChosen)));
+    consumers.add(Consumer<MQTTAppState>(
+        builder: (context, value, child) =>
+            _buildFirstRow(value.getCodeWasChosen)));
 
     for (var i = 0; i < rowNumber; ++i) {
       rows.add(ButtonRow());
       guesses.add(GuessSquare());
       consumers.add(Consumer<MQTTAppState>(
-          builder: (context, value, child) => _buildGameRow(i, value.getCurrentTurn, value.getCodeToDecipher)));
+          builder: (context, value, child) =>
+              _buildGameRow(i, value.getCurrentTurn, value.getCodeToDecipher)));
     }
+
+    shakeDetector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        // Do stuff on phone shake
+        rows[0].rowController.randomizeColors();
+      },
+      minimumShakeCount: 1,
+      shakeSlopTimeMS: 500,
+      shakeCountResetTime: 3000,
+      shakeThresholdGravity: 1.7,
+    );
+  }
+
+  @override
+  void dispose() {
+    // dispose shake detector
+    shakeDetector.stopListening();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-            onPressed: () {
-              widget.mqttManagerRef.resetMQTTVars();
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            )),
-        backgroundColor: Colors.white,
-        title: const Text("Mastermind"),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          widget.mqttManagerRef.resetMQTTVars();
+          Navigator.of(context).pop();
+        },
+        label: const Text("Quit"),
+        icon: const Icon(Icons.close),
       ),
       body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            consumers[0],
-            Consumer<MQTTAppState>(builder: (context, value, child) => Text(value.getEndString)),
-            consumers[1],
-            consumers[2],
-            consumers[3],
-            consumers[4],
-            consumers[5],
-            consumers[6],
-            consumers[7],
-            consumers[8],
-            consumers[9],
-            consumers[10],
-          ],
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/socialmind_pattern.png"),
+            repeat: ImageRepeat.repeat,
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Image(
+                  image: AssetImage("images/logo_2x.png"),
+                ),
+              ),
+              const SizedBox(height: 20),
+              consumers[0],
+              Consumer<MQTTAppState>(
+                  builder: (context, value, child) => Text(value.getEndString)),
+              consumers[1],
+              consumers[2],
+              consumers[3],
+              consumers[4],
+              consumers[5],
+              consumers[6],
+              consumers[7],
+              consumers[8],
+              consumers[9],
+              consumers[10],
+            ],
+          ),
         ),
       ),
     );
@@ -498,7 +544,8 @@ class _PlayPageState extends State<PlayPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             rows[0],
-            SetCodeButton(mqttManagerRef: widget.mqttManagerRef, rowRef: rows[0]),
+            SetCodeButton(
+                mqttManagerRef: widget.mqttManagerRef, rowRef: rows[0]),
           ],
         ),
         const SizedBox(height: 10)
@@ -507,7 +554,8 @@ class _PlayPageState extends State<PlayPage> {
   }
 
   //Game Row
-  Widget _buildGameRow(int incomingRowNumber, int currentTurn, String codeToDecipher) {
+  Widget _buildGameRow(
+      int incomingRowNumber, int currentTurn, String codeToDecipher) {
     int rowNumber = incomingRowNumber;
     bool isVisible = false;
 
