@@ -17,8 +17,7 @@ class CustomMQTTManager {
   final MQTTAppState _currentMQTTState;
 
   // Constructor
-  CustomMQTTManager(
-      {required MQTTAppState incomingState, required String incomingID})
+  CustomMQTTManager({required MQTTAppState incomingState, required String incomingID})
       : _host = "10.0.2.2",
         _identifier = incomingID,
         _port = 1883,
@@ -34,8 +33,7 @@ class CustomMQTTManager {
 
     _client!.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
       final rcvdMsg = c![0].payload as MqttPublishMessage;
-      final rcvdPayload =
-          MqttPublishPayload.bytesToStringAsString(rcvdMsg.payload.message);
+      final rcvdPayload = MqttPublishPayload.bytesToStringAsString(rcvdMsg.payload.message);
 
       dealWithListen(rcvdPayload);
     });
@@ -77,7 +75,7 @@ class CustomMQTTManager {
     _client!.logging(on: true);
 
     final MqttConnectMessage connectMesg = MqttConnectMessage()
-        .authenticateAs('guest', 'guest')
+        .authenticateAs('test', 'test')
         .withClientIdentifier(_identifier)
         .withWillTopic('willtopic')
         .withWillMessage('My Will message')
@@ -115,13 +113,11 @@ class CustomMQTTManager {
 
     builder.addString(_identifier + "::" + msgToPublish);
 
-    _client!.publishMessage(_topic, MqttQos.exactlyOnce, builder.payload!,
-        retain: true);
+    _client!.publishMessage(_topic, MqttQos.exactlyOnce, builder.payload!, retain: true);
   }
 
   void resetMQTTVars() {
-    _currentMQTTState
-        .setAppConnectionState(MQTTAppConnectionState.disconnected);
+    _currentMQTTState.setAppConnectionState(MQTTAppConnectionState.disconnected);
     _currentMQTTState.setPlayerNum(0);
     _currentMQTTState.setCanPlay(false);
     _currentMQTTState.setCodeWasChosen(false);
@@ -165,8 +161,7 @@ class CustomMQTTManager {
         print(mySubstring + "CODE TO DECIPHER");
       }
 
-      if (_currentMQTTState.getCodeWasChosen &&
-          _currentMQTTState.getCodeToDecipher != "") {
+      if (_currentMQTTState.getCodeWasChosen && _currentMQTTState.getCodeToDecipher != "") {
         _currentMQTTState.increaseCurrentTurn();
         print("INCREASE TURN");
       }
@@ -181,8 +176,7 @@ class CustomMQTTManager {
         print("OPPONENT GUESS");
       }
 
-      if (_currentMQTTState.getHasTried &&
-          _currentMQTTState.getOpponentHasTried) {
+      if (_currentMQTTState.getHasTried && _currentMQTTState.getOpponentHasTried) {
         _currentMQTTState.setHasTried(false);
         _currentMQTTState.setOpponentHasTried(false);
         _currentMQTTState.increaseCurrentTurn();
