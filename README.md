@@ -1,2 +1,2 @@
 # Socialmind
- Project that incorporates social elements into teh classic Mastermind code breaking game.
+ Project that incorporates social elements into the classic Mastermind code breaking game.
