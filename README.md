@@ -20,3 +20,10 @@ Also, suffice to say, Firebase functionality is now down, so you won't actually 
 ## Screenshots
 <img src="https://github.com/user-attachments/assets/2a2a3db8-f9e8-4048-bde6-b0cd93cf4623" width="200">
 <img src="https://github.com/user-attachments/assets/bcab70ff-95c4-47e2-8959-9fceb8d9b2f8" width="200">
+
+## Credits
+[Decathlannix ](https://github.com/Decathlannix )
+
+[exodusgd](https://github.com/exodusgd)
+
+[luischavesdev](https://github.com/luischavesdev)
