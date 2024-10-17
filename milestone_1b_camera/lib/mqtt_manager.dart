@@ -7,7 +7,6 @@ class CustomMQTTManager {
 
   //10.0.2.2 : 8000 || 1883
   //127.0.0.1 : 1883
-  //192.168.1.8
 
   final String _host;
   final String _identifier;
